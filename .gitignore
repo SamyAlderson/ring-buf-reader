@@ -1,15 +1,17 @@
-__pycache__/
-*.pyc
-.pytest_cache/
-.env
-*.egg-info/
-dist/
+.gitignore
+=====================================================
+
+# build directory
 build/
-.venv/
-node_modules/
-target/
-bin/
-obj/
+
+# generated files from CMake
+CMakeCache.txt CMakeFiles/
+
+# object files
 *.o
-*.so
-*.dylib/
+
+# test output
+test/output/
+
+# compiler warnings
+*.swp
