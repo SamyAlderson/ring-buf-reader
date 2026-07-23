@@ -2,46 +2,54 @@
 #define RINGBUF_H
 
 /**
- * Maximum number of elements in the ring buffer.
- */
-#define RINGBUF_SIZE 1024
-
-/**
  * Ring buffer structure.
  */
 typedef struct {
-    unsigned char data[RINGBUF_SIZE];
-    unsigned int head;
-    unsigned int tail;
-    unsigned int size;
+    void *data;
+    size_t capacity;
+    size_t size;
+    size_t start;
+    size_t end;
 } ringbuf_t;
 
 /**
  * Initialize a ring buffer.
- *
- * @param rb Ring buffer to initialize.
- * @return 0 on success, -1 on failure.
+ * 
+ * @param buf  Ring buffer to initialize.
+ * @param data Buffer to store the data in.
+ * @param capacity Capacity of the buffer.
  */
-int ringbuf_init(ringbuf_t *rb);
+void ringbuf_init(ringbuf_t *buf, void *data, size_t capacity);
 
 /**
  * Write data to the ring buffer.
- *
- * @param rb Ring buffer to write to.
+ * 
+ * @param buf  Ring buffer to write to.
  * @param data Data to write.
- * @param len Length of data to write.
- * @return 0 on success, -1 on failure (buffer full).
+ * @param len  Length of the data.
+ * 
+ * @return 1 if successful, 0 otherwise.
  */
-int ringbuf_write(ringbuf_t *rb, const unsigned char *data, unsigned int len);
+int ringbuf_write(ringbuf_t *buf, const void *data, size_t len);
 
 /**
  * Read data from the ring buffer.
- *
- * @param rb Ring buffer to read from.
- * @param data Buffer to store read data.
- * @param len Length of data to read (up to ring buffer size).
- * @return Number of bytes read on success, -1 on failure (buffer empty).
+ * 
+ * @param buf  Ring buffer to read from.
+ * @param data Buffer to store the data in.
+ * @param len  Length of the data.
+ * 
+ * @return 1 if successful, 0 otherwise.
  */
-int ringbuf_read(ringbuf_t *rb, unsigned char *data, unsigned int len);
+int ringbuf_read(ringbuf_t *buf, void *data, size_t len);
 
-#endif  // RINGBUF_H
+/**
+ * Get the current size of the ring buffer.
+ * 
+ * @param buf  Ring buffer to get the size of.
+ * 
+ * @return The current size of the ring buffer.
+ */
+size_t ringbuf_size(ringbuf_t *buf);
+
+#endif /* RINGBUF_H */
